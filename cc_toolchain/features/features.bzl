@@ -256,3 +256,45 @@ cc_toolchain_sysroot_feature = rule(
     },
     provides = [FeatureInfo],
 )
+
+def _external_exclude_paths_feature(ctx):
+    return _feature(
+        name = ctx.label.name,
+        enabled = ctx.attr.enabled,
+        provides = ctx.attr.provides,
+        implies = ctx.attr.implies,
+        flag_sets = [
+            flag_set(
+                actions = [
+                    ACTION_NAMES.preprocess_assemble,
+                    ACTION_NAMES.linkstamp_compile,
+                    ACTION_NAMES.c_compile,
+                    ACTION_NAMES.cpp_compile,
+                    ACTION_NAMES.cpp_header_parsing,
+                    ACTION_NAMES.cpp_module_compile,
+                    ACTION_NAMES.clif_match,
+                    ACTION_NAMES.objc_compile,
+                    ACTION_NAMES.objcpp_compile,
+                ],
+                flag_groups = [
+                    flag_group(
+                        flags = ["-isystem", "%{external_include_paths}"],
+                        iterate_over = "external_include_paths",
+                        expand_if_available = "external_include_paths",
+                    ),
+                ],
+            ),
+        ],
+    )
+
+cc_toolchain_external_exclude_paths_feature = rule(
+    _external_exclude_paths_feature,
+    attrs = {
+        "enabled": attr.bool(default = False),
+        "provides": attr.string_list(),
+        "requires": attr.string_list(),
+        "implies": attr.string_list(),
+    },
+    provides = [FeatureInfo],
+)
+

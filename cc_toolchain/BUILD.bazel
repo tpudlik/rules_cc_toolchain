@@ -114,6 +114,7 @@ cc_toolchain_config(
         "//cc_toolchain/features:supports_pic",
         "//cc_toolchain/features:startup_libs",
         "//cc_toolchain/features:coverage",
+        "//cc_toolchain/features:external_include_paths",
 
         # C++ standard configuration
         "//cc_toolchain/features:c++11",

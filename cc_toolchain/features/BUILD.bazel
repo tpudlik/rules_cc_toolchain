@@ -1,6 +1,7 @@
 load(
     ":features.bzl",
     "cc_feature",
+    "cc_toolchain_external_exclude_paths_feature",
     "cc_toolchain_import_feature",
     "cc_toolchain_sysroot_feature",
 )
@@ -148,6 +149,10 @@ cc_toolchain_sysroot_feature(
     name = "sysroot",
     enabled = True,
     sysroot = "@debian_stretch_amd64_sysroot//:sysroot",
+)
+
+cc_toolchain_external_exclude_paths_feature(
+    name = "external_include_paths",
 )
 
 cc_feature(
